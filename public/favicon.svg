@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Mangkok Kecil Logo / Favicon -->
+  <circle cx="32" cy="32" r="30" fill="#FDF6EC" stroke="#A3B18A" stroke-width="2"/>
+  <!-- Mangkok -->
+  <path d="M16 28 C16 46, 48 46, 48 28 Z" fill="#A3B18A" />
+  <!-- Bibir mangkok -->
+  <ellipse cx="32" cy="28" rx="16" ry="3.5" fill="#588157" />
+  <!-- Kaki mangkok -->
+  <path d="M26 43 L38 43 L36 46 L28 46 Z" fill="#588157" />
+  <!-- Sendok oranye ceria -->
+  <path d="M24 16 C28 20, 38 27, 44 26 C45 23, 41 18, 32 17 Z" fill="#FF9F1C" />
+  <!-- Uap hangat / sparkle -->
+  <path d="M25 21 Q27 18 25 15" stroke="#FF9F1C" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M38 22 Q40 19 38 16" stroke="#A3B18A" stroke-width="2" stroke-linecap="round" fill="none"/>
+</svg>

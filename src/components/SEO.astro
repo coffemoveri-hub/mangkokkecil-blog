@@ -1,0 +1,126 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  type?: 'website' | 'article';
+  author?: string;
+  publishDate?: string;
+  modifiedDate?: string;
+  tags?: string[];
+  breadcrumbs?: { name: string; url: string }[];
+}
+
+const {
+  title,
+  description = 'MangkokKecil adalah panduan praktis dan inspirasi resep MPASI bergizi seimbang untuk bayi usia 4 hingga 24 bulan. Solusi anak lahap, bebas GTM, dan tumbuh kembang optimal.',
+  image = 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=1200&q=80',
+  canonical = Astro.url.href,
+  type = 'website',
+  author = 'MangkokKecil Editorial Team',
+  publishDate,
+  modifiedDate,
+  tags = [],
+  breadcrumbs = [],
+} = Astro.props;
+
+const siteUrl = 'https://mangkokkecil.vercel.app';
+const currentUrl = canonical || new URL(Astro.url.pathname, siteUrl).href;
+const formattedTitle = title.includes('MangkokKecil') ? title : `${title} | MangkokKecil`;
+
+// Truncate meta description ke 150-160 karakter untuk SEO optimal
+const cleanDescription = description.length > 160 ? `${description.slice(0, 157)}...` : description;
+
+// Schema.org Organization
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'MangkokKecil',
+  url: siteUrl,
+  logo: `${siteUrl}/favicon.svg`,
+  description: 'Portal edukasi MPASI terlengkap, panduan nutrisi bayi, tips anti GTM, dan review perlengkapan makan anak terpercaya.',
+  sameAs: [
+    'https://instagram.com/mangkokkecil',
+    'https://tiktok.com/@mangkokkecil',
+  ],
+};
+
+// Schema.org Article (jika tipe halaman adalah artikel/blog detail)
+const articleSchema = type === 'article' ? {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: cleanDescription,
+  image: [image],
+  datePublished: publishDate ? new Date(publishDate).toISOString() : new Date().toISOString(),
+  dateModified: modifiedDate ? new Date(modifiedDate).toISOString() : (publishDate ? new Date(publishDate).toISOString() : new Date().toISOString()),
+  author: {
+    '@type': 'Person',
+    name: author,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'MangkokKecil',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteUrl}/favicon.svg`,
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': currentUrl,
+  },
+  keywords: tags.join(', '),
+} : null;
+
+// Schema.org Breadcrumbs
+const breadcrumbSchema = breadcrumbs.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    item: item.url.startsWith('http') ? item.url : `${siteUrl}${item.url}`,
+  })),
+} : null;
+---
+
+<!-- Basic Meta Tags -->
+<title>{formattedTitle}</title>
+<meta name="title" content={formattedTitle} />
+<meta name="description" content={cleanDescription} />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href={currentUrl} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={currentUrl} />
+<meta property="og:title" content={formattedTitle} />
+<meta property="og:description" content={cleanDescription} />
+<meta property="og:image" content={image} />
+<meta property="og:site_name" content="MangkokKecil" />
+<meta property="og:locale" content="id_ID" />
+{publishDate && <meta property="article:published_time" content={publishDate} />}
+{author && <meta property="article:author" content={author} />}
+
+<!-- Twitter Card -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={currentUrl} />
+<meta property="twitter:title" content={formattedTitle} />
+<meta property="twitter:description" content={cleanDescription} />
+<meta property="twitter:image" content={image} />
+
+<!-- Google Fonts Preconnect untuk Performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+{articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
+{breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}

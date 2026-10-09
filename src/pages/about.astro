@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const breadcrumbs = [{ name: 'Tentang Kami', url: '/about' }];
+---
+
+<Layout
+  title="Tentang Kami - Sahabat Perjalanan MPASI Bayi Indonesia"
+  description="Mengenal MangkokKecil, portal edukasi MPASI terlengkap yang mendampingi ibu muda memberikan gizi seimbang, bebas stunting, dan mengatasi GTM dengan bahagia."
+  breadcrumbs={breadcrumbs}
+  type="website"
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <!-- Header Section -->
+    <div class="text-center max-w-3xl mx-auto mt-6 mb-16 space-y-4">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-brand-sage-soft dark:bg-brand-sage/20 text-brand-sage-dark dark:text-brand-sage-light text-xs font-bold uppercase tracking-wider">
+        Tentang MangkokKecil
+      </span>
+      <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-charcoal dark:text-gray-100">
+        Mendampingi Setiap Sendok Pertama Si Kecil dengan Cinta
+      </h1>
+      <p class="text-lg text-brand-charcoal/80 dark:text-gray-300 leading-relaxed">
+        Kami percaya bahwa momen makan pertama adalah fondasi kesehatan, kecerdasan kognitif, dan hubungan emosional yang hangat antara ibu dan anak.
+      </p>
+    </div>
+
+    <!-- Story & Mission Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
+      <div class="space-y-6 text-brand-charcoal/90 dark:text-gray-200 leading-relaxed">
+        <h2 class="font-display text-2xl sm:text-3xl font-bold text-brand-charcoal dark:text-gray-100">
+          Kisah di Balik MangkokKecil
+        </h2>
+        <p>
+          Berawal dari keresahan para ibu muda yang dibingungkan oleh jutaan mitos MPASI di media sosial, informasi yang saling bertentangan, hingga rasa cemas luar biasa ketika si Kecil tiba-tiba menutup rapat mulutnya (GTM).
+        </p>
+        <p>
+          <strong>MangkokKecil</strong> hadir sebagai ruang edukasi yang bersahabat, ilmiah, dan praktis. Kami merujuk langsung pada standar emas nutrisi anak dari <strong>IDAI (Ikatan Dokter Anak Indonesia)</strong> dan <strong>WHO (World Health Organization)</strong> untuk memastikan setiap informasi yang Bunda baca dapat dipertanggungjawabkan secara medis.
+        </p>
+        <div class="p-4 rounded-2xl bg-brand-orange-soft/40 dark:bg-zinc-800 border-l-4 border-brand-orange">
+          <p class="text-sm font-medium text-brand-charcoal dark:text-gray-100 italic">
+            "Tidak ada ibu yang sempurna, namun setiap mangkok kecil yang Bunda siapkan dengan penuh kasih adalah langkah besar bagi masa depan si Kecil."
+          </p>
+        </div>
+      </div>
+
+      <div class="relative">
+        <img
+          src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=800&q=80"
+          alt="Ibu dan Bayi Menikmati MPASI Bersama MangkokKecil"
+          loading="lazy"
+          width="600"
+          height="600"
+          class="rounded-organic shadow-organic-lg object-cover w-full h-[400px]"
+        />
+        <div class="absolute -bottom-4 -right-4 p-4 rounded-2xl bg-white dark:bg-zinc-800 shadow-organic border border-brand-sage/20 text-xs font-bold text-brand-sage-dark dark:text-brand-sage-light">
+          🌿 100% Edukasi Tervalidasi
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Pilar Target Audiens -->
+    <div id="visi-misi" class="py-12 border-t border-brand-sage/20 dark:border-brand-sage/10 space-y-10">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-brand-charcoal dark:text-gray-100">
+          3 Profil Ibu yang Kami Dampingi
+        </h2>
+        <p class="text-sm text-brand-charcoal-muted dark:text-gray-400">
+          Setiap keluarga memiliki ritme yang berbeda, dan kami menyediakan solusi yang relevan untuk kebutuhan Anda.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-3xl bg-white dark:bg-[#252A26] border border-brand-sage/20 shadow-sm space-y-3">
+          <span class="text-2xl">🌱</span>
+          <h3 class="font-display font-bold text-lg text-brand-charcoal dark:text-gray-100">Ibu Baru (New Mom)</h3>
+          <p class="text-xs sm:text-sm text-brand-charcoal/80 dark:text-gray-300 leading-relaxed">
+            Panduan tekstur bertahap dari lumat hingga kasar, panduan pemilihan sendok silikon lembut, dan cara mengenali sinyal lapar bayi.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-white dark:bg-[#252A26] border border-brand-sage/20 shadow-sm space-y-3">
+          <span class="text-2xl">💼</span>
+          <h3 class="font-display font-bold text-lg text-brand-charcoal dark:text-gray-100">Ibu Bekerja (Working Mom)</h3>
+          <p class="text-xs sm:text-sm text-brand-charcoal/80 dark:text-gray-300 leading-relaxed">
+            Strategi food prep mingguan, penyimpanan kaldu beku higienis, serta review perlengkapan slow cooker hemat waktu.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-white dark:bg-[#252A26] border border-brand-sage/20 shadow-sm space-y-3">
+          <span class="text-2xl">🥣</span>
+          <h3 class="font-display font-bold text-lg text-brand-charcoal dark:text-gray-100">Pejuang GTM</h3>
+          <p class="text-xs sm:text-sm text-brand-charcoal/80 dark:text-gray-300 leading-relaxed">
+            Kumpulan resep booster tinggi kalori, variasi finger food lezat, dan pendampingan psikologis dalam menerapkan aturan makan 30 menit.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</Layout>

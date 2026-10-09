@@ -1,0 +1,251 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { getPublishedBlogPosts } from '../lib/notion';
+
+// Ambil 3 artikel terbaru
+const allPosts = await getPublishedBlogPosts();
+const latestPosts = allPosts.slice(0, 3);
+
+const metaDescription = "MangkokKecil menghadirkan panduan MPASI bergizi seimbang untuk ibu muda usia 23–35 tahun. Temukan resep puree 6 bulan, tips anti-GTM, dan ulasan perlengkapan bayi.";
+---
+
+<Layout
+  title="MangkokKecil - Panduan & Resep MPASI Terlengkap Bayi 6-24 Bulan"
+  description={metaDescription}
+  type="website"
+>
+  <!-- Hero Section -->
+  <Hero />
+
+  <!-- Why Choose Us / 3 Poin Fitur Unggulan -->
+  <section class="py-16 sm:py-20 bg-white/70 dark:bg-zinc-900/50 border-y border-brand-sage/20 dark:border-brand-sage/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+        <span class="text-xs sm:text-sm font-bold tracking-wider text-brand-orange uppercase">
+          Kenapa Memilih MangkokKecil?
+        </span>
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-brand-charcoal dark:text-gray-100">
+          Solusi Nutrisi Tepat untuk Tumbuh Kembang Optimal
+        </h2>
+        <p class="text-base text-brand-charcoal-light dark:text-gray-300">
+          Dirancang khusus untuk mendampingi ibu baru, ibu bekerja, dan orang tua pejuang GTM dengan referensi medis tervalidasi.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Poin 1: Panduan Tekstur Step-by-Step (Ibu Baru) -->
+        <div class="bg-brand-cream/80 dark:bg-[#252A26] p-8 rounded-3xl border border-brand-sage/30 dark:border-brand-sage/15 shadow-sm hover:shadow-organic transition-all duration-300 hover:-translate-y-1">
+          <div class="w-14 h-14 rounded-2xl bg-brand-sage text-white flex items-center justify-center mb-6 shadow-organic">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h3 class="font-display text-xl font-bold text-brand-charcoal dark:text-gray-100 mb-3">
+            Panduan Tekstur Bertahap
+          </h3>
+          <p class="text-sm text-brand-charcoal/80 dark:text-gray-300 leading-relaxed">
+            Mulai dari puree lumat 6 bulan, tekstur cincang halus 9 bulan, hingga makanan keluarga di usia 12 bulan sesuai rekomendasi oromotor IDAI tanpa rasa khawatir tersedak.
+          </p>
+        </div>
+
+        <!-- Poin 2: Meal Prep Cepat & Higienis (Ibu Bekerja) -->
+        <div class="bg-brand-cream/80 dark:bg-[#252A26] p-8 rounded-3xl border border-brand-sage/30 dark:border-brand-sage/15 shadow-sm hover:shadow-organic transition-all duration-300 hover:-translate-y-1">
+          <div class="w-14 h-14 rounded-2xl bg-brand-orange text-white flex items-center justify-center mb-6 shadow-warm">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="font-display text-xl font-bold text-brand-charcoal dark:text-gray-100 mb-3">
+            Meal Prep Efisien & Cerdas
+          </h3>
+          <p class="text-sm text-brand-charcoal/80 dark:text-gray-300 leading-relaxed">
+            Hemat waktu berharga dengan trik stok kaldu beku, teknik penyimpanan bahan makanan di chiller/freezer, dan ulasan alat slow cooker serta food processor terbaik.
+          </p>
+        </div>
+
+        <!-- Poin 3: Resep Padat Kalori Anti-GTM (Pejuang GTM) -->
+        <div class="bg-brand-cream/80 dark:bg-[#252A26] p-8 rounded-3xl border border-brand-sage/30 dark:border-brand-sage/15 shadow-sm hover:shadow-organic transition-all duration-300 hover:-translate-y-1">
+          <div class="w-14 h-14 rounded-2xl bg-brand-sage-dark text-white flex items-center justify-center mb-6 shadow-organic">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="font-display text-xl font-bold text-brand-charcoal dark:text-gray-100 mb-3">
+            Solusi Nyata Hadapi GTM
+          </h3>
+          <p class="text-sm text-brand-charcoal/80 dark:text-gray-300 leading-relaxed">
+            Strategi feeding rules 30 menit, variasi finger food bergizi, dan resep boost kalori tinggi zat besi hewani saat si Kecil sedang menolak makan karena tumbuh gigi.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Blog Terbaru (Ambil 3 Post dari Notion) -->
+  <section class="py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <span class="text-xs sm:text-sm font-bold tracking-wider text-brand-sage-dark dark:text-brand-sage-light uppercase">
+            Artikel & Edukasi Terbaru
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-brand-charcoal dark:text-gray-100 mt-1">
+            Inspirasi Menu & Trik Praktis MPASI
+          </h2>
+        </div>
+
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-2 text-sm font-bold text-brand-orange hover:text-brand-orange-hover group"
+        >
+          <span>Lihat Semua Artikel</span>
+          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Grid 3 Card -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {latestPosts.map((post) => (
+          <BlogCard post={post} />
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section CTA Utama: Penyelamat Fase GTM -->
+  <section id="gtm-cerita" class="py-16 sm:py-20 bg-brand-orange-soft/30 dark:bg-zinc-900 border-t border-brand-orange/20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+      
+      <div class="w-16 h-16 rounded-full bg-brand-orange text-white flex items-center justify-center mx-auto shadow-warm animate-bounce">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        </svg>
+      </div>
+
+      <span class="inline-block px-4 py-1.5 rounded-full bg-brand-orange/20 text-brand-orange-hover dark:text-brand-orange text-xs sm:text-sm font-extrabold uppercase tracking-wider">
+        Ruang Berbagi Ibu Indonesia
+      </span>
+
+      <!-- CTA Utama dari Prompt -->
+      <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-charcoal dark:text-gray-100 leading-snug">
+        "Setiap ibu pasti pernah frustasi menghadapi fase GTM. Apa menu penyelamat andalan Ibu saat si Kecil menolak makan? Bagikan cerita dan resep rahasia Ibu di kolom komentar, yuk!"
+      </h2>
+
+      <p class="text-sm sm:text-base text-brand-charcoal/80 dark:text-gray-300 max-w-2xl mx-auto">
+        Cerita dan pengalaman Ibu sangat berharga untuk saling menguatkan sesama pejuang MPASI di seluruh Indonesia.
+      </p>
+
+      <!-- Interactive Community Comment Box -->
+      <div class="bg-white dark:bg-[#252A26] rounded-3xl p-6 sm:p-8 shadow-organic border border-brand-sage/20 text-left mt-8">
+        <h3 class="font-display font-bold text-lg text-brand-charcoal dark:text-gray-100 mb-4 flex items-center gap-2">
+          <span>Tulis Menu Penyelamat Ibu</span>
+          <span class="text-xs font-normal text-brand-sage-dark dark:text-brand-sage-light">(Akan tampil di komunitas)</span>
+        </h3>
+
+        <form id="comment-form" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="mother-name" class="block text-xs font-semibold text-brand-charcoal-muted dark:text-gray-300 mb-1">Nama Ibu / Panggilan</label>
+              <input
+                type="text"
+                id="mother-name"
+                required
+                placeholder="Contoh: Bunda Sarah"
+                class="w-full px-4 py-2.5 rounded-xl border border-brand-sage/30 bg-brand-cream/40 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-orange"
+              />
+            </div>
+            <div>
+              <label for="baby-age" class="block text-xs font-semibold text-brand-charcoal-muted dark:text-gray-300 mb-1">Usia Bayi</label>
+              <input
+                type="text"
+                id="baby-age"
+                required
+                placeholder="Contoh: 8 Bulan"
+                class="w-full px-4 py-2.5 rounded-xl border border-brand-sage/30 bg-brand-cream/40 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-orange"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="mother-story" class="block text-xs font-semibold text-brand-charcoal-muted dark:text-gray-300 mb-1">Resep Rahasia & Cerita Pengalaman</label>
+            <textarea
+              id="mother-story"
+              rows="3"
+              required
+              placeholder="Tuliskan bahan menu andalan Ibu saat anak GTM atau tips trik yang berhasil..."
+              class="w-full px-4 py-2.5 rounded-xl border border-brand-sage/30 bg-brand-cream/40 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-orange"
+            ></textarea>
+          </div>
+
+          <div class="flex items-center justify-between pt-2">
+            <span class="text-xs text-brand-charcoal-muted dark:text-gray-400">
+              Mari saling dukung tanpa penghakiman ❤️
+            </span>
+            <button
+              type="submit"
+              class="px-6 py-2.5 rounded-full bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-sm shadow-warm transition-all"
+            >
+              Kirim Cerita Ibu
+            </button>
+          </div>
+        </form>
+
+        <!-- Dynamic Success Toast / Community Feed -->
+        <div id="comment-feed" class="mt-6 pt-6 border-t border-brand-sage/20 space-y-3">
+          <div class="p-4 rounded-2xl bg-brand-sage-soft/50 dark:bg-zinc-800/60 border border-brand-sage/20 text-xs sm:text-sm">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-brand-sage-dark dark:text-brand-sage-light">Bunda Arini (Bayi 9 Bulan)</span>
+              <span class="text-[11px] text-brand-charcoal-muted">Baru saja</span>
+            </div>
+            <p class="text-brand-charcoal/90 dark:text-gray-200">
+              "Penyelamat anakku pas GTM parah adalah Bitterballen Kentang Keju + Hati Ayam giling. Bentuknya bola-bola kecil gampang dipegang, teksturnya renyah di luar lembut di dalam!"
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</Layout>
+
+<script>
+  // Simple interactive comment submit logic
+  const commentForm = document.getElementById('comment-form') as HTMLFormElement;
+  const feed = document.getElementById('comment-feed');
+
+  if (commentForm && feed) {
+    commentForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nameInput = document.getElementById('mother-name') as HTMLInputElement;
+      const ageInput = document.getElementById('baby-age') as HTMLInputElement;
+      const storyInput = document.getElementById('mother-story') as HTMLTextAreaElement;
+
+      if (!nameInput.value || !storyInput.value) return;
+
+      const newCard = document.createElement('div');
+      newCard.className = 'p-4 rounded-2xl bg-brand-orange-soft/50 dark:bg-zinc-800/80 border border-brand-orange/30 text-xs sm:text-sm animate-fade-in';
+      newCard.innerHTML = `
+        <div class="flex items-center justify-between mb-1">
+          <span class="font-bold text-brand-orange">${nameInput.value} (${ageInput.value || 'Bayi'})</span>
+          <span class="text-[11px] text-brand-charcoal-muted">Baru saja</span>
+        </div>
+        <p class="text-brand-charcoal/90 dark:text-gray-200">"${storyInput.value}"</p>
+      `;
+
+      feed.prepend(newCard);
+      commentForm.reset();
+      alert('Terima kasih banyak Bunda! Cerita dan resep andalan Ibu sudah berhasil dibagikan.');
+    });
+  }
+</script>

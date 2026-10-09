@@ -1,0 +1,95 @@
+---
+import type { BlogPost } from '../lib/notion';
+
+export interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+
+// Format tanggal ke Bahasa Indonesia (contoh: 28 September 2026)
+const formattedDate = new Date(post.date).toLocaleDateString('id-ID', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="group bg-white dark:bg-[#262B27] rounded-3xl overflow-hidden border border-brand-sage/20 dark:border-brand-sage/10 shadow-sm hover:shadow-organic-lg transition-all duration-300 hover:-translate-y-1.5 flex flex-col h-full">
+  <!-- Thumbnail Cover -->
+  <a href={`/blog/${post.slug}`} class="relative block overflow-hidden aspect-[16/10] bg-brand-sage-soft">
+    <img
+      src={post.coverImage}
+      alt={`${post.title} - MangkokKecil`}
+      loading="lazy"
+      width="600"
+      height="375"
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+    />
+    
+    <!-- Primary Tag Badge on Image -->
+    {post.tags.length > 0 && (
+      <div class="absolute top-4 left-4 z-10">
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/90 dark:bg-zinc-900/90 text-brand-sage-dark dark:text-brand-sage-light backdrop-blur-md shadow-sm">
+          {post.tags[0]}
+        </span>
+      </div>
+    )}
+
+    <!-- Reading Time Badge -->
+    <div class="absolute bottom-3 right-3 z-10">
+      <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-black/60 text-white backdrop-blur-md">
+        {post.readingTime}
+      </span>
+    </div>
+  </a>
+
+  <!-- Content Body -->
+  <div class="p-6 flex flex-col flex-1 justify-between">
+    <div class="space-y-3">
+      
+      <!-- Meta Information (Date & Author) -->
+      <div class="flex items-center gap-2 text-xs text-brand-charcoal-muted dark:text-gray-400">
+        <time datetime={post.date}>{formattedDate}</time>
+        <span>•</span>
+        <span>{post.author}</span>
+      </div>
+
+      <!-- Title -->
+      <h3 class="font-display text-xl font-bold text-brand-charcoal dark:text-gray-100 group-hover:text-brand-orange transition-colors leading-snug line-clamp-2">
+        <a href={`/blog/${post.slug}`}>
+          {post.title}
+        </a>
+      </h3>
+
+      <!-- Excerpt -->
+      <p class="text-sm text-brand-charcoal/80 dark:text-gray-300 line-clamp-3 leading-relaxed">
+        {post.excerpt}
+      </p>
+
+    </div>
+
+    <!-- Tags & Read More Action -->
+    <div class="pt-5 mt-4 border-t border-brand-sage/15 dark:border-brand-sage/10 flex items-center justify-between">
+      <div class="flex flex-wrap gap-1.5">
+        {post.tags.slice(0, 2).map((tag) => (
+          <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-brand-sage-soft dark:bg-zinc-800 text-brand-charcoal-light dark:text-gray-300">
+            #{tag}
+          </span>
+        ))}
+      </div>
+
+      <a
+        href={`/blog/${post.slug}`}
+        class="inline-flex items-center gap-1 text-xs font-bold text-brand-orange group-hover:text-brand-orange-hover group-hover:translate-x-1 transition-all"
+        aria-label={`Baca selengkapnya artikel ${post.title}`}
+      >
+        <span>Baca</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</article>

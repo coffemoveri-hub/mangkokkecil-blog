@@ -1,0 +1,54 @@
+---
+import SEO from '../components/SEO.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  type?: 'website' | 'article';
+  author?: string;
+  publishDate?: string;
+  modifiedDate?: string;
+  tags?: string[];
+  breadcrumbs?: { name: string; url: string }[];
+}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <SEO {...props} />
+
+    <!-- Script cegah flash tema gelap/terang saat pertama kali dibuka -->
+    <script is:inline>
+      if (
+        localStorage.getItem('color-theme') === 'dark' ||
+        (!('color-theme' in localStorage) &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </head>
+  <body class="bg-brand-cream dark:bg-[#1F2421] text-brand-charcoal dark:text-gray-100 flex flex-col min-h-screen transition-colors duration-300 antialiased selection:bg-brand-orange selection:text-white">
+    <!-- Navbar Global -->
+    <Navbar />
+
+    <!-- Konten Utama Halaman -->
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <!-- Footer Global -->
+    <Footer />
+  </body>
+</html>

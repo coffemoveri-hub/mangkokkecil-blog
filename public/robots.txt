@@ -1,0 +1,6 @@
+# Robots.txt untuk MangkokKecil
+User-agent: *
+Allow: /
+
+# Sitemap Index
+Sitemap: https://mangkokkecil.vercel.app/sitemap-index.xml

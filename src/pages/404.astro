@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Halaman Tidak Ditemukan - MangkokKecil"
+  description="Halaman yang Anda cari belum tersedia atau telah dipindahkan."
+  type="website"
+>
+  <div class="max-w-xl mx-auto px-4 py-20 text-center space-y-6">
+    <div class="w-24 h-24 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center mx-auto text-4xl">
+      🥣
+    </div>
+    
+    <span class="text-sm font-bold text-brand-orange uppercase tracking-wider">Error 404</span>
+    
+    <h1 class="font-display text-3xl sm:text-4xl font-extrabold text-brand-charcoal dark:text-gray-100">
+      Ups! Mangkok Ini Masih Kosong
+    </h1>
+    
+    <p class="text-sm text-brand-charcoal/80 dark:text-gray-300 leading-relaxed">
+      Halaman atau resep yang Ibu cari mungkin telah dipindahkan atau belum tersedia. Yuk kembali ke beranda untuk melihat aneka resep lezat lainnya!
+    </p>
+
+    <div class="pt-4">
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-brand-orange hover:bg-brand-orange-hover text-white text-sm font-bold shadow-warm transition-all"
+      >
+        <span>Kembali ke Beranda</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</Layout>

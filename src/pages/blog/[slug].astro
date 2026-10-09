@@ -1,0 +1,241 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getPublishedBlogPosts, getPostBySlug, getRelatedPosts, type BlogPost } from '../../lib/notion';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedBlogPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { initialPost: post },
+  }));
+}
+
+const { slug } = Astro.params;
+const { initialPost } = Astro.props;
+
+// Ambil data lengkap post termasuk blok konten
+const post = (await getPostBySlug(slug as string)) || initialPost;
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+// Ambil 3 artikel terkait berdasarkan kesamaan tags
+const relatedPosts = await getRelatedPosts(post.slug, post.tags, 3);
+
+// Format Tanggal
+const formattedDate = new Date(post.date).toLocaleDateString('id-ID', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const breadcrumbs = [
+  { name: 'Artikel & Resep', url: '/blog' },
+  { name: post.title, url: `/blog/${post.slug}` },
+];
+---
+
+<Layout
+  title={post.title}
+  description={post.excerpt}
+  image={post.coverImage}
+  type="article"
+  author={post.author}
+  publishDate={post.date}
+  modifiedDate={post.date}
+  tags={post.tags}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    
+    <!-- Breadcrumbs SEO & Navigation -->
+    <Breadcrumbs items={breadcrumbs} />
+
+    <!-- Article Header -->
+    <header class="mt-6 mb-8 space-y-5">
+      
+      <!-- Tags & Reading Time -->
+      <div class="flex flex-wrap items-center gap-2">
+        {post.tags.map((tag) => (
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-brand-sage-soft dark:bg-brand-sage/20 text-brand-sage-dark dark:text-brand-sage-light border border-brand-sage/30">
+            {tag}
+          </span>
+        ))}
+        <span class="text-xs text-brand-charcoal-muted dark:text-gray-400 font-medium ml-1">
+          • {post.readingTime}
+        </span>
+      </div>
+
+      <!-- Main Headline H1 -->
+      <h1 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-brand-charcoal dark:text-gray-100 tracking-tight leading-[1.2]">
+        {post.title}
+      </h1>
+
+      <!-- Excerpt Lead Paragraph -->
+      <p class="text-lg sm:text-xl text-brand-charcoal-light dark:text-gray-300 leading-relaxed font-normal italic border-l-4 border-brand-orange pl-4">
+        {post.excerpt}
+      </p>
+
+      <!-- Author, Date, and Share Meta -->
+      <div class="flex items-center justify-between py-4 border-y border-brand-sage/20 dark:border-brand-sage/10 text-sm text-brand-charcoal-muted dark:text-gray-400">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center font-bold text-sm">
+            {post.author.charAt(0)}
+          </div>
+          <div>
+            <p class="font-bold text-brand-charcoal dark:text-gray-200">{post.author}</p>
+            <p class="text-xs">Diterbitkan: <time datetime={post.date}>{formattedDate}</time></p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-xs hidden sm:inline">Bagikan:</span>
+          <!-- Share WA -->
+          <a
+            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${post.title} - Baca di MangkokKecil: https://mangkokkecil.vercel.app/blog/${post.slug}`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Bagikan ke WhatsApp"
+            class="p-2 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 hover:scale-110 transition-transform"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- Main Featured Cover Image (dengan loading="lazy" dan alt text SEO) -->
+    <div class="relative rounded-3xl overflow-hidden aspect-[16/9] mb-10 shadow-organic border border-brand-sage/20 bg-brand-sage-soft">
+      <img
+        src={post.coverImage}
+        alt={`${post.title} - MangkokKecil`}
+        loading="lazy"
+        width="1200"
+        height="675"
+        class="w-full h-full object-cover"
+      />
+    </div>
+
+    <!-- Article Notion Blocks Content -->
+    <div class="notion-content text-base sm:text-lg leading-relaxed space-y-4">
+      {post.contentBlocks && post.contentBlocks.length > 0 ? (
+        post.contentBlocks.map((block) => {
+          if (block.type === 'heading_1') {
+            return <h2>{block.content}</h2>;
+          }
+          if (block.type === 'heading_2') {
+            return <h2>{block.content}</h2>;
+          }
+          if (block.type === 'heading_3') {
+            return <h3>{block.content}</h3>;
+          }
+          if (block.type === 'paragraph') {
+            return <p>{block.content}</p>;
+          }
+          if (block.type === 'bulleted_list_item') {
+            return (
+              <ul class="my-2">
+                <li>{block.content}</li>
+              </ul>
+            );
+          }
+          if (block.type === 'numbered_list_item') {
+            return (
+              <ol class="my-2">
+                <li>{block.content}</li>
+              </ol>
+            );
+          }
+          if (block.type === 'quote') {
+            return <blockquote>"{block.content}"</blockquote>;
+          }
+          if (block.type === 'code') {
+            return (
+              <pre>
+                <code>{block.content}</code>
+              </pre>
+            );
+          }
+          if (block.type === 'image') {
+            return (
+              <figure class="my-6">
+                <img
+                  src={block.content}
+                  alt={`${block.extra?.caption || post.title} - MangkokKecil`}
+                  loading="lazy"
+                  class="rounded-2xl w-full max-h-[500px] object-cover shadow-organic border border-brand-sage/20"
+                />
+                {block.extra?.caption && (
+                  <figcaption class="text-center text-xs text-brand-charcoal-muted mt-2 italic">
+                    {block.extra.caption}
+                  </figcaption>
+                )}
+              </figure>
+            );
+          }
+          return null;
+        })
+      ) : (
+        <p class="text-brand-charcoal/80 dark:text-gray-300">
+          {post.excerpt}
+        </p>
+      )}
+    </div>
+
+    <!-- Callout Box CTA Utama: Berbagi Cerita GTM -->
+    <section class="mt-14 p-6 sm:p-8 rounded-3xl bg-brand-orange-soft/40 dark:bg-zinc-800/80 border border-brand-orange/30 shadow-organic space-y-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold text-lg">
+          💬
+        </div>
+        <h3 class="font-display text-xl font-bold text-brand-charcoal dark:text-gray-100">
+          Kolom Cerita & Resep Penyelamat Ibu
+        </h3>
+      </div>
+      <p class="text-base text-brand-charcoal/90 dark:text-gray-200 font-medium leading-relaxed italic">
+        "Setiap ibu pasti pernah frustasi menghadapi fase GTM. Apa menu penyelamat andalan Ibu saat si Kecil menolak makan? Bagikan cerita dan resep rahasia Ibu di kolom komentar, yuk!"
+      </p>
+      <div class="pt-2">
+        <a
+          href="/#gtm-cerita"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-orange hover:bg-brand-orange-hover text-white text-sm font-bold shadow-warm transition-all"
+        >
+          <span>Tulis Cerita & Resep Ibu Sekarang</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Internal Linking: 3 Artikel Terkait Berdasarkan Tags -->
+    {relatedPosts.length > 0 && (
+      <section class="mt-16 pt-12 border-t border-brand-sage/20 dark:border-brand-sage/10">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <span class="text-xs font-bold text-brand-sage-dark dark:text-brand-sage-light uppercase tracking-wider">
+              Rekomendasi Bacaan
+            </span>
+            <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-brand-charcoal dark:text-gray-100 mt-1">
+              Artikel Terkait untuk Ibu
+            </h2>
+          </div>
+          <a href="/blog" class="text-xs font-bold text-brand-orange hover:underline">
+            Lihat Semua &rarr;
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {relatedPosts.map((rPost) => (
+            <BlogCard post={rPost} />
+          ))}
+        </div>
+      </section>
+    )}
+
+  </article>
+</Layout>
