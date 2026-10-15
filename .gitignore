@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 dist/
+.vercel/
 
 # Astro cache
 .astro/
@@ -10,6 +11,10 @@ dist/
 # Environment variables
 .env
 .env.production
+.env.local
+
+# Debug / inspection scripts (contain secrets)
+inspect-*.mjs
 
 # Editor directories and files
 .vscode/*

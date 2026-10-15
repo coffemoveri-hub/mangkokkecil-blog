@@ -332,16 +332,6 @@ export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
     // Deteksi nama kolom status & date secara case-insensitive
     const statusCol = propKeys.find((k) => k.toLowerCase() === 'status');
     const dateCol = propKeys.find((k) => k.toLowerCase() === 'date');
-
-    const queryFilter = statusCol
-      ? {
-          property: statusCol,
-          select: {
-            equals: 'Published',
-          },
-        }
-      : undefined;
-
     const sorts = dateCol
       ? [
           {
@@ -351,9 +341,10 @@ export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
         ]
       : undefined;
 
+    // Query database Notion tanpa filter select ketat di level API
+    // agar tidak error jika pengguna belum sempat membuat opsi "Published" di Notion
     const response = await notion.databases.query({
       database_id: NOTION_DATABASE_ID,
-      ...(queryFilter ? { filter: queryFilter } : {}),
       ...(sorts ? { sorts } : {}),
     });
 
@@ -361,6 +352,13 @@ export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
 
     for (const page of response.results as any[]) {
       const props = page.properties;
+
+      // Cek status secara toleran di JavaScript
+      const statusProp = findProperty(props, 'status', 'Status');
+      const statusValue = statusProp?.select?.name?.toLowerCase() || '';
+      
+      // Hanya ambil yang berstatus 'published'
+      if (statusValue !== 'published') continue;
 
       // Ambil Title (toleran terhadap 'tittle', 'Title', 'title')
       const titleProp = findProperty(props, 'title', 'tittle', 'Title');
