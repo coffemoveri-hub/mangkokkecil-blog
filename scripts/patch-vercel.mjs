@@ -15,15 +15,17 @@ if (fs.existsSync(adapterPath)) {
     changed = true;
   }
 
-  if (content.includes("return 'nodejs18.x';")) {
-    content = content.replace("return 'nodejs18.x';", "return 'nodejs20.x';");
+  const regex = /function getRuntime\([^)]*\)\s*\{[\s\S]*?\n\}/;
+  const replacement = "function getRuntime() {\n    return 'nodejs22.x';\n}";
+  if (regex.test(content) && !content.includes(replacement)) {
+    content = content.replace(regex, replacement);
     changed = true;
   }
 
   if (changed) {
     fs.writeFileSync(adapterPath, content, 'utf8');
-    console.log('[patch-vercel] Patched @astrojs/vercel for Node 22 and removed nodejs18.x fallback.');
+    console.log('[patch-vercel] Patched @astrojs/vercel to use nodejs22.x runtime.');
   } else {
-    console.log('[patch-vercel] @astrojs/vercel already patched.');
+    console.log('[patch-vercel] @astrojs/vercel already configured for nodejs22.x.');
   }
 }
