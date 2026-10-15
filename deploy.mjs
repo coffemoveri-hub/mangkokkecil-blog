@@ -41,6 +41,6 @@ run('git push origin main', '[5/5] Push ke GitHub...');
 console.log('\n========================================');
 console.log('  DEPLOY SUKSES!');
 console.log('  Vercel auto-deploy sedang berjalan...');
-console.log('  https://mangkokkecil.vercel.app');
+console.log('  https://mangkokkecil-blog.vercel.app');
 console.log('  Tunggu 1-2 menit lalu cek website.');
 console.log('========================================\n');

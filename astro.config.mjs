@@ -5,7 +5,7 @@ import vercel from '@astrojs/vercel/serverless';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://mangkokkecil.vercel.app',
+  site: 'https://mangkokkecil-blog.vercel.app',
   output: 'hybrid',
   adapter: vercel(),
   integrations: [
