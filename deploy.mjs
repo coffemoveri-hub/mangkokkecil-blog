@@ -16,24 +16,27 @@ console.log('\n========================================');
 console.log('  MangkokKecil - Auto Deploy to Vercel');
 console.log('========================================\n');
 
-// Step 1: Build
-run('npx astro build', '[1/4] Build project...');
+// Step 1: Patch adapter
+run('node scripts/patch-vercel.mjs', '[1/5] Verifikasi compatibility adapter...');
 
-// Step 2: Git add
-run('git add -A', '[2/4] Tambahkan semua perubahan...');
+// Step 2: Build
+run('npx astro build', '[2/5] Build project...');
 
-// Step 3: Git commit
+// Step 3: Git add
+run('git add -A', '[3/5] Tambahkan semua perubahan...');
+
+// Step 4: Git commit
 const now = new Date();
 const timestamp = now.toISOString().slice(0, 16).replace('T', ' ');
 try {
   execSync('git diff --cached --quiet', { cwd: process.cwd() });
-  console.log('\n>> [3/4] Tidak ada perubahan baru, skip commit...');
+  console.log('\n>> [4/5] Tidak ada perubahan baru, skip commit...');
 } catch {
-  run(`git commit -m "deploy: update ${timestamp}"`, '[3/4] Commit perubahan...');
+  run(`git commit -m "deploy: update ${timestamp}"`, '[4/5] Commit perubahan...');
 }
 
-// Step 4: Push
-run('git push origin main', '[4/4] Push ke GitHub...');
+// Step 5: Push
+run('git push origin main', '[5/5] Push ke GitHub...');
 
 console.log('\n========================================');
 console.log('  DEPLOY SUKSES!');
